@@ -9,12 +9,15 @@
 
 library(shiny)
 
+modules <- list.files("modules", full.names = TRUE)
+sapply(modules, source)
+
+
+
 # Define UI for application that draws a histogram
 ui <- fluidPage(
 
-    # Application title
-    titlePanel("Old Faithful Geyser Data"),
-
+    headerUI("mainHeader"),
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
@@ -22,7 +25,8 @@ ui <- fluidPage(
                         "Number of bins:",
                         min = 1,
                         max = 50,
-                        value = 30)
+                        value = 30),
+            sampleUI("s")
         ),
 
         # Show a plot of the generated distribution
@@ -45,6 +49,8 @@ server <- function(input, output) {
              xlab = 'Waiting time to next eruption (in mins)',
              main = 'Histogram of waiting times')
     })
+    
+    sampleServer("s")
 }
 
 # Run the application 
